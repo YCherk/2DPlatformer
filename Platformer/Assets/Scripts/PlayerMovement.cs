@@ -8,11 +8,18 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 10.0f;  // Force applied for jumping
     private Animator anim;
     private Rigidbody2D Player;
-
+    private BoxCollider2D coll;
+    private SpriteRenderer sprite;
+    [SerializeField] private LayerMask jumpableground;
+    private enum MoveState { idle, running, jumping, falling }
+    
+    
     void Start()
     {
         Player = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+        coll = GetComponent<BoxCollider2D>();
     }
 
     void Update()
@@ -23,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
         Player.velocity = movement;
 
         // Check for jumping
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && Grounded())
         {
             Player.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
@@ -33,29 +40,40 @@ public class PlayerMovement : MonoBehaviour
     }
     void UpdateAnimation()
     {
+        MoveState state;
+
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         if (horizontalInput > 0f) 
         {
-            anim.SetBool("running", true);
+            state = MoveState.running;
+            sprite.flipX = false;
         }
         else if (horizontalInput < 0f)
         {
-            anim.SetBool("running", true);
+            state = MoveState.running;
+            sprite.flipX = true;
         }
         else 
         {
-            anim.SetBool("running", false);
+            state = MoveState.idle;
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (Player.velocity.y > .1f)
         {
-            anim.SetBool("jumping", true);
+            state = MoveState.jumping;
+
         }
-        else if (horizontalInput > 0f) 
+        else if (Player.velocity.y < -.1f)
         {
-            anim.SetBool("jumping", false);
+            state = MoveState.falling;
         }
+
+        anim.SetInteger("state", (int)state);
 
         
+    }
+    private bool Grounded() 
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableground);
     }
 }
