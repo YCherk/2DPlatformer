@@ -11,9 +11,9 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D coll;
     private SpriteRenderer sprite;
     [SerializeField] private LayerMask jumpableground;
-    private enum MoveState { idle, running, jumping, falling }
-    
-    
+    private enum MoveState { idle, running, jumping, falling, doubleJump }
+    private bool canDoubleJump = true;
+
     void Start()
     {
         Player = GetComponent<Rigidbody2D>();
@@ -30,20 +30,29 @@ public class PlayerMovement : MonoBehaviour
         Player.velocity = movement;
 
         // Check for jumping
-        if (Input.GetButtonDown("Jump") && Grounded())
+        if (Input.GetButtonDown("Jump"))
         {
-            Player.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            if (Grounded())
+            {
+                Player.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                canDoubleJump = true;
+            }
+            else if (canDoubleJump)
+            {
+                Player.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                canDoubleJump = false;
+            }
         }
 
         UpdateAnimation();
-        
     }
+
     void UpdateAnimation()
     {
         MoveState state;
 
         float horizontalInput = Input.GetAxisRaw("Horizontal");
-        if (horizontalInput > 0f) 
+        if (horizontalInput > 0f)
         {
             state = MoveState.running;
             sprite.flipX = false;
@@ -53,26 +62,30 @@ public class PlayerMovement : MonoBehaviour
             state = MoveState.running;
             sprite.flipX = true;
         }
-        else 
+        else
         {
             state = MoveState.idle;
         }
 
-        if (Player.velocity.y > .1f)
+        if (Player.velocity.y > 0.1f)
         {
             state = MoveState.jumping;
-
         }
-        else if (Player.velocity.y < -.1f)
+        else if (Player.velocity.y < -0.1f)
         {
             state = MoveState.falling;
         }
 
-        anim.SetInteger("state", (int)state);
+        // Check if the player is in the double jump state
+        if (!Grounded() && !canDoubleJump && state != MoveState.falling)
+        {
+            state = MoveState.doubleJump;
+        }
 
-        
+        anim.SetInteger("state", (int)state);
     }
-    private bool Grounded() 
+
+    private bool Grounded()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableground);
     }
