@@ -7,7 +7,7 @@ public class PlayerLife : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rb;
 [SerializeField] private AudioSource DeathSound;
-
+[SerializeField] private AudioSource LifeSound;
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -35,7 +35,7 @@ DeathSound.Play();
     private void Reload()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
+LifeSound.Play();
     }
 
 }
