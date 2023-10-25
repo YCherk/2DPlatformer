@@ -10,7 +10,7 @@ public class ItemCounter : MonoBehaviour
     [SerializeField] private Text CherriesText;
     [SerializeField] private Text OrangesText;
     [SerializeField] private Text PineapplesText;
-
+[SerializeField] private AudioSource CollectItem;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Cherry"))
@@ -18,6 +18,7 @@ public class ItemCounter : MonoBehaviour
             Destroy(collision.gameObject);
             CherryCounter++;
             CherriesText.text = "Cherries: " + CherryCounter;
+            CollectItem.Play();
 
         }
 
@@ -26,16 +27,10 @@ public class ItemCounter : MonoBehaviour
             Destroy(collision.gameObject);
             OrangeCounter++;
             OrangesText.text = "Oranges: " + OrangeCounter;
-
+CollectItem.Play();
         }
 
-        if (collision.gameObject.CompareTag("Pineapple"))
-        {
-            Destroy(collision.gameObject);
-            PineappleCounter++;
-            PineapplesText.text = "Pinepples: " + PineappleCounter;
-
-        }
+        
 
     }
 }

@@ -13,7 +13,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask jumpableground;
     private enum MoveState { idle, running, jumping, falling, doubleJump }
     private bool canDoubleJump = true;
-
+    [SerializeField] private AudioSource JumpSoundEffect;
+[SerializeField] private AudioSource DoubleJumpSoundEffect;
     void Start()
     {
         Player = GetComponent<Rigidbody2D>();
@@ -31,16 +32,20 @@ public class PlayerMovement : MonoBehaviour
 
         // Check for jumping
         if (Input.GetButtonDown("Jump"))
-        {
+        {   
+            
+
             if (Grounded())
             {
                 Player.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 canDoubleJump = true;
+                JumpSoundEffect.Play();
             }
             else if (canDoubleJump)
             {
                 Player.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 canDoubleJump = false;
+                DoubleJumpSoundEffect.Play();
             }
         }
 

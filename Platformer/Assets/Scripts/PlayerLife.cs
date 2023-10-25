@@ -6,6 +6,7 @@ public class PlayerLife : MonoBehaviour
 {
     private Animator anim;
     private Rigidbody2D rb;
+[SerializeField] private AudioSource DeathSound;
 
     private void Start()
     {
@@ -18,6 +19,8 @@ public class PlayerLife : MonoBehaviour
         if(collision.gameObject.CompareTag("Spikes"))
         {
             Die();
+DeathSound.Play();
+
         }
         
     }
