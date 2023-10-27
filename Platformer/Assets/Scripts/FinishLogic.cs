@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class FinishLogic : MonoBehaviour
 {
-    ptivate AudioSource finishlevel;
+    private AudioSource finishlevel;
     void Start()
     {
         finishlevel = GetComponent<AudioSource>();
         
     }
-private void OnTriggerEnter2D(Collider 2D collision)
+private void OnTriggerEnter2D(Collider2D collision)
 {
 if (collision.gameObject.name == "Player") 
 {
@@ -20,6 +20,7 @@ if (collision.gameObject.name == "Player")
 }
  private void LevelEnd () 
  {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
  }
     

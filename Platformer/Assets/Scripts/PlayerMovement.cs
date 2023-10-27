@@ -7,19 +7,23 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5.0f;   // Speed of horizontal movement
     public float jumpForce = 10.0f;  // Force applied for jumping
     private Animator anim;
-    private Rigidbody2D Player;
+    private Rigidbody2D playerRigidbody;
     private BoxCollider2D coll;
     private SpriteRenderer sprite;
     [SerializeField] private LayerMask jumpableground;
-    private enum MoveState { idle, running, jumping, falling, doubleJump }
-    private bool canDoubleJump = true;
+    private enum MoveState { idle, running, jumping, falling }
+    private bool canDoubleJump = false;
+    private bool hasOrange = false; // Added variable to track if the player has an orange
     [SerializeField] private AudioSource JumpSoundEffect;
-[SerializeField] private AudioSource DoubleJumpSoundEffect;
+    [SerializeField] private AudioSource DoubleJumpSoundEffect;
+    
+    
+
     void Start()
     {
-        Player = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        anim = GetComponent <Animator>();
+        sprite = GetComponent <SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
     }
 
@@ -27,25 +31,24 @@ public class PlayerMovement : MonoBehaviour
     {
         // Get user input for movement
         float horizontalInput = Input.GetAxisRaw("Horizontal");
-        Vector2 movement = new Vector2(horizontalInput * moveSpeed, Player.velocity.y);
-        Player.velocity = movement;
+        Vector2 movement = new Vector2(horizontalInput * moveSpeed, playerRigidbody.velocity.y);
+        playerRigidbody.velocity = movement;
 
         // Check for jumping
         if (Input.GetButtonDown("Jump"))
-        {   
-            
-
+        {
             if (Grounded())
             {
-                Player.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                playerRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 canDoubleJump = true;
                 JumpSoundEffect.Play();
             }
-            else if (canDoubleJump)
+            else if (canDoubleJump && hasOrange) // Check for having an orange before double jumping
             {
-                Player.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                playerRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 canDoubleJump = false;
                 DoubleJumpSoundEffect.Play();
+                
             }
         }
 
@@ -72,19 +75,13 @@ public class PlayerMovement : MonoBehaviour
             state = MoveState.idle;
         }
 
-        if (Player.velocity.y > 0.1f)
+        if (playerRigidbody.velocity.y > 0.1f)
         {
             state = MoveState.jumping;
         }
-        else if (Player.velocity.y < -0.1f)
+        else if (playerRigidbody.velocity.y < -0.1f)
         {
             state = MoveState.falling;
-        }
-
-        // Check if the player is in the double jump state
-        if (!Grounded() && !canDoubleJump && state != MoveState.falling)
-        {
-            state = MoveState.doubleJump;
         }
 
         anim.SetInteger("state", (int)state);
@@ -92,6 +89,12 @@ public class PlayerMovement : MonoBehaviour
 
     private bool Grounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableground);
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableground);
+    }
+
+    // Function to be called when the player collects an orange
+    public void CollectOrange()
+    {
+        hasOrange = true;
     }
 }
