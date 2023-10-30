@@ -8,6 +8,7 @@ TagManager:
   - Orange
   - Pineapple
   - Spikes
+  - OtherCharacter
   layers:
   - Default
   - TransparentFX

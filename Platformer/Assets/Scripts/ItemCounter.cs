@@ -11,6 +11,7 @@ public class ItemCounter : MonoBehaviour
     [SerializeField] private Text PineapplesText;
     [SerializeField] private AudioSource CollectItem;
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private HintController hintController;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Cherry"))
@@ -29,6 +30,7 @@ public class ItemCounter : MonoBehaviour
             OrangesText.text = "Oranges: " + OrangeCounter;
             CollectItem.Play();
             playerMovement.CollectOrange();
+            hintController.ShowOrangeHint();
         }
 
         

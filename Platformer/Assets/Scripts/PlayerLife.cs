@@ -8,6 +8,7 @@ public class PlayerLife : MonoBehaviour
     private Rigidbody2D rb;
 [SerializeField] private AudioSource DeathSound;
 [SerializeField] private AudioSource LifeSound;
+    [SerializeField] private ControlText controlText;
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -35,7 +36,15 @@ DeathSound.Play();
     private void Reload()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-LifeSound.Play();
+        LifeSound.Play();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("OtherCharacter"))
+        {
+            controlText.ShowOrangeHint();
+        }
     }
 
 }
