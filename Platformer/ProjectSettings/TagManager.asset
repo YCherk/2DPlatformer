@@ -10,6 +10,7 @@ TagManager:
   - Spikes
   - OtherCharacter
   - Bullet
+  - Terrain
   layers:
   - Default
   - TransparentFX
