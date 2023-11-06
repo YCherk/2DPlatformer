@@ -10,6 +10,12 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
     public bool isFollowingPlayer = false;
 
+    public GameObject bulletPrefab;
+    public Transform shootPoint;
+    public float shootCooldown = 2f;
+    private float lastShootTime;
+    private bool shouldShoot = false; // Add this flag
+
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Vector3 initialPosition;
@@ -21,15 +27,24 @@ public class EnemyAI : MonoBehaviour
         SetRandomTarget();
 
         // Get the Animator component
-        animator = GetComponent <Animator>();
+        animator = GetComponent<Animator>();
         // Get the SpriteRenderer component
         spriteRenderer = GetComponent <SpriteRenderer>();
+
+        lastShootTime = 0f;
     }
 
     void Update()
     {
         if (isFollowingPlayer)
         {
+            // Shooting logic
+            if (shouldShoot && Time.time - lastShootTime >= shootCooldown)
+            {
+                Shoot();
+                lastShootTime = Time.time;
+            }
+
             Vector3 directionToPlayer = (player.position - transform.position).normalized;
             transform.Translate(directionToPlayer * followSpeed * Time.deltaTime);
 
@@ -51,31 +66,16 @@ public class EnemyAI : MonoBehaviour
             if (Vector3.Distance(transform.position, player.position) < followRange)
             {
                 isFollowingPlayer = true;
+                shouldShoot = true; // Enable shooting when following
 
                 // Set Animator parameter for running
                 animator.SetBool("IsRunning", true);
             }
             else
             {
-                transform.Translate((targetPosition - transform.position).normalized * moveSpeed * Time.deltaTime);
-
-                if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-                {
-                    SetRandomTarget();
-                }
-
-                // Set Animator parameter for running
-                animator.SetBool("IsRunning", true);
-
-                // Flip the sprite if moving left
-                if (moveSpeed < 0)
-                {
-                    spriteRenderer.flipX = true;
-                }
-                else
-                {
-                    spriteRenderer.flipX = false;
-                }
+                // Stand still and do not move
+                // Set Animator parameter for running to false
+                animator.SetBool("IsRunning", false);
             }
         }
     }
@@ -84,4 +84,20 @@ public class EnemyAI : MonoBehaviour
     {
         targetPosition = initialPosition + new Vector3(Random.Range(-2f, 2f), 0, 0);
     }
+
+    void Shoot()
+    {
+        // Create a bullet instance at the shoot point's position
+        GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
+
+        // Calculate bullet's direction based on the enemy's orientation
+        Vector3 bulletDirection = spriteRenderer.flipX ? Vector3.left : Vector3.right;
+
+        // Set the bullet's speed and direction
+        bullet.GetComponent<EnemyBullet>().SetDirection(bulletDirection);
+
+        // Set the bullet's damage, effects, etc. if necessary
+    }
+
+
 }

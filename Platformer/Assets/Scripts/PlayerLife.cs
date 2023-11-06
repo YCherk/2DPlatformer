@@ -25,6 +25,20 @@ DeathSound.Play();
         }
         
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("OtherCharacter"))
+        {
+            controlText.ShowOrangeHint();
+        }
+
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Die();
+            DeathSound.Play();
+
+        }
+    }
     private void Die()
 
     {
@@ -39,12 +53,6 @@ DeathSound.Play();
         LifeSound.Play();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("OtherCharacter"))
-        {
-            controlText.ShowOrangeHint();
-        }
-    }
+    
 
 }

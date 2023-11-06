@@ -9,6 +9,7 @@ TagManager:
   - Pineapple
   - Spikes
   - OtherCharacter
+  - Bullet
   layers:
   - Default
   - TransparentFX
