@@ -13,8 +13,7 @@ public class BGMusicController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Initialize the mute button state based on player preferences
-        isMuted = PlayerPrefs.GetInt("Muted", 0) == 1;
+        // Initialize the mute button state
         UpdateMuteButton();
 
         // Attach the mute/unmute function to the button's click event
@@ -30,10 +29,7 @@ public class BGMusicController : MonoBehaviour
         isMuted = !isMuted;
         backgroundMusic.mute = isMuted;
 
-        // Save the mute state in player preferences
-        PlayerPrefs.SetInt("Muted", isMuted ? 1 : 0);
-        PlayerPrefs.Save();
-
+        // Update the mute/unmute button text
         UpdateMuteButton();
     }
 
