@@ -9,6 +9,8 @@ public class EnemyAI : MonoBehaviour
     public float followRange = 5f;
     public Transform player;
     public bool isFollowingPlayer = false;
+    [SerializeField] private AudioSource bossSound;
+    private bool soundPlayed = false;
 
     public GameObject bulletPrefab;
     public Transform shootPoint;
@@ -29,7 +31,7 @@ public class EnemyAI : MonoBehaviour
         // Get the Animator component
         animator = GetComponent<Animator>();
         // Get the SpriteRenderer component
-        spriteRenderer = GetComponent <SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         lastShootTime = 0f;
     }
@@ -38,6 +40,12 @@ public class EnemyAI : MonoBehaviour
     {
         if (isFollowingPlayer)
         {
+            if (!soundPlayed)
+            {
+                bossSound.Play();
+                soundPlayed = true;
+            }
+
             // Shooting logic
             if (shouldShoot && Time.time - lastShootTime >= shootCooldown)
             {
@@ -98,6 +106,4 @@ public class EnemyAI : MonoBehaviour
 
         // Set the bullet's damage, effects, etc. if necessary
     }
-
-
 }
