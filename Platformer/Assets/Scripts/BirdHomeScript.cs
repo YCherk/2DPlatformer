@@ -15,6 +15,8 @@ public class BossBird : MonoBehaviour
         if (isFollowing)
         {
             FollowPlayer();
+           
+
         }
     }
 

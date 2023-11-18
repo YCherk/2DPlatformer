@@ -59,14 +59,14 @@ public class EnemyAI : MonoBehaviour
             // Set Animator parameter for running
             animator.SetBool("IsRunning", true);
 
-            // Flip the sprite if moving left
+            // Flip the sprite based on the direction of movement
             if (directionToPlayer.x < 0)
             {
-                spriteRenderer.flipX = true;
+                spriteRenderer.flipX = false;
             }
             else
             {
-                spriteRenderer.flipX = false;
+                spriteRenderer.flipX = true;
             }
         }
         else
@@ -84,6 +84,16 @@ public class EnemyAI : MonoBehaviour
                 // Stand still and do not move
                 // Set Animator parameter for running to false
                 animator.SetBool("IsRunning", false);
+
+                // Flip the sprite based on the direction to the target position
+                if (targetPosition.x < transform.position.x)
+                {
+                    spriteRenderer.flipX = false;
+                }
+                else
+                {
+                    spriteRenderer.flipX = true;
+                }
             }
         }
     }
@@ -99,7 +109,7 @@ public class EnemyAI : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
 
         // Calculate bullet's direction based on the enemy's orientation
-        Vector3 bulletDirection = spriteRenderer.flipX ? Vector3.left : Vector3.right;
+        Vector3 bulletDirection = spriteRenderer.flipX ? Vector3.right : Vector3.left;
 
         // Set the bullet's speed and direction
         bullet.GetComponent<EnemyBullet>().SetDirection(bulletDirection);
