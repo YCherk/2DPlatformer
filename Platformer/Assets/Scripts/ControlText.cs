@@ -36,7 +36,7 @@ public class ControlText : MonoBehaviour
     public void ShowOrangeHint()
     {
         // Set the hint text
-        hintText.text = "Virtual Guy: Welcome Friend! Use A to move left and D to move right. Use spacebar to Jump. Collect fruits and avoid Obstacles. Good Luck!";
+        hintText.text = "Virtual Guy: You lost Birdy again??? Get to the checkpoint to look for him in the next Pixel World. Dont forget to get him fruits. Good Luck!";
 
         // Show the hint text
         hintText.gameObject.SetActive(true);
