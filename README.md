@@ -1,4 +1,5 @@
-Block Wars
+Block Wars:
+
 A game about a man who losted his lifelong friend Birdy. He is on a quest to get him back. You have to guide him through the levels away from harm's way in order to reunite them.
 
 Credits:
