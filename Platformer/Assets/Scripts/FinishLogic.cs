@@ -12,7 +12,7 @@ public class FinishLogic : MonoBehaviour
     }
 private void OnTriggerEnter2D(Collider2D collision)
 {
-if (collision.gameObject.name == "Player") 
+if (collision.gameObject.name == "Player") //tag for player if they collide with end checkpoint
 {
     finishlevel.Play();
     LevelEnd();
@@ -20,6 +20,7 @@ if (collision.gameObject.name == "Player")
 }
  private void LevelEnd () 
  {
+        //loads next level
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
  }

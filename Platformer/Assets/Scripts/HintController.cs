@@ -13,7 +13,7 @@ public class HintController : MonoBehaviour
 
     private void Start()
     {
-        // Hide the hint text initially
+        
         hintText.gameObject.SetActive(false);
     }
 
@@ -25,7 +25,7 @@ public class HintController : MonoBehaviour
 
             if (hintDisplayTimer >= hintDisplayTime)
             {
-                // Hide the hint text after the specified time
+               
                 hintText.gameObject.SetActive(false);
                 isDisplayingHint = false;
                 hintDisplayTimer = 0.0f;
@@ -35,10 +35,10 @@ public class HintController : MonoBehaviour
 
     public void ShowOrangeHint()
     {
-        // Set the hint text
+        
         hintText.text = "Orange Collected! Double tap Space to Double Jump";
 
-        // Show the hint text
+        
         hintText.gameObject.SetActive(true);
 
         isDisplayingHint = true;

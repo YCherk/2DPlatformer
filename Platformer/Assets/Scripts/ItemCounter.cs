@@ -8,9 +8,12 @@ public class ItemCounter : MonoBehaviour
     private int OrangeCounter = 0;
     [SerializeField] private Text CherriesText;
     [SerializeField] private Text OrangesText;
+
     [SerializeField] private Text PineapplesText;
+
     [SerializeField] private AudioSource CollectItem;
     [SerializeField] private PlayerMovement playerMovement;
+
     [SerializeField] private HintController hintController;
     private void OnTriggerEnter2D(Collider2D collision)
     {

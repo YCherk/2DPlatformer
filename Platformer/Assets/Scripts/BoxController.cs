@@ -11,21 +11,21 @@ public class BoxController : MonoBehaviour
 
     private void Start()
     {
-        // Initialize currentWaypoint to the starting point (waypointA)
+        // make currentwaypoint the starting waypoint
         currentWaypoint = waypointA;
     }
 
     private void Update()
     {
-        // Move the saw towards the current waypoint
+        // Move saw towards the current waypoint
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, step);
 
-        // Check if the saw has reached the current waypoint
+        // Checks if saw has reached the current waypoint
         if (Vector3.Distance(transform.position, currentWaypoint.position) < 0.01f)
         {
             boxsound.Play();
-            // Switch to the other waypoint
+           
             if (movingTowardsA)
             {
                 currentWaypoint = waypointB;
@@ -35,7 +35,7 @@ public class BoxController : MonoBehaviour
                 currentWaypoint = waypointA;
             }
 
-            // Toggle the direction
+           
             movingTowardsA = !movingTowardsA;
         }
     }

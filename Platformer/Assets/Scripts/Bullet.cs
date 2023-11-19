@@ -9,7 +9,7 @@ public class EnemyBullet : MonoBehaviour
 
     void Update()
     {
-        // Move the bullet in the specified direction
+        // Move the bullet in direction we want
         transform.Translate(bulletDirection * bulletSpeed * Time.deltaTime);
     }
 

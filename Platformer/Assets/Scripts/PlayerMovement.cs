@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5.0f;   // Speed of horizontal movement
-    public float jumpForce = 10.0f;  // Force applied for jumping
+    public float moveSpeed = 5.0f;  
+    public float jumpForce = 10.0f;  
     private Animator anim;
     private Rigidbody2D playerRigidbody;
     private BoxCollider2D coll;
@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask jumpableground;
     private enum MoveState { idle, running, jumping, falling }
     private bool canDoubleJump = false;
-    private bool hasOrange = false; // Added variable to track if the player has an orange
+    private bool hasOrange = false; 
     [SerializeField] private AudioSource JumpSoundEffect;
     [SerializeField] private AudioSource DoubleJumpSoundEffect;
     
@@ -55,6 +55,19 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimation();
     }
 
+   
+
+    private bool Grounded()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableground);
+    }
+
+    
+    public void CollectOrange()
+    {
+        hasOrange = true;
+    }
+
     void UpdateAnimation()
     {
         MoveState state;
@@ -85,16 +98,5 @@ public class PlayerMovement : MonoBehaviour
         }
 
         anim.SetInteger("state", (int)state);
-    }
-
-    private bool Grounded()
-    {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableground);
-    }
-
-    // Function to be called when the player collects an orange
-    public void CollectOrange()
-    {
-        hasOrange = true;
     }
 }

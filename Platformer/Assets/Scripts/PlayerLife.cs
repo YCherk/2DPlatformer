@@ -6,8 +6,8 @@ public class PlayerLife : MonoBehaviour
 {
     private Animator anim;
     private Rigidbody2D rb;
-[SerializeField] private AudioSource DeathSound;
-[SerializeField] private AudioSource LifeSound;
+    [SerializeField] private AudioSource DeathSound;
+    [SerializeField] private AudioSource LifeSound;
     [SerializeField] private ControlText controlText;
     private void Start()
     {
@@ -16,21 +16,24 @@ public class PlayerLife : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
+
     {
         if(collision.gameObject.CompareTag("Spikes"))
         {
             Die();
-DeathSound.Play();
+            DeathSound.Play();
 
         }
         
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("OtherCharacter"))
+        if (collision.gameObject.CompareTag("OtherCharacter")) //npc dialogue 
         {
             controlText.ShowOrangeHint();
         }
+
+
 
         if (collision.gameObject.CompareTag("Bullet"))
         {
@@ -46,6 +49,7 @@ DeathSound.Play();
         anim.SetTrigger("death");
 
     }
+
 
     private void Reload()
     {

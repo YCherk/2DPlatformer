@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class BGMusicController : MonoBehaviour
 {
-    public AudioSource backgroundMusic; // Reference to your background music Audio Source
-    public Button muteButton; // Reference to your mute/unmute button
+    public AudioSource backgroundMusic; 
+    public Button muteButton; 
     public Font buttonFont;
     private bool isMuted = false;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
-        // Initialize the mute button state
+        
         UpdateMuteButton();
 
-        // Attach the mute/unmute function to the button's click event
+        
         if (muteButton != null)
         {
             muteButton.onClick.AddListener(ToggleMute);
@@ -25,17 +25,17 @@ public class BGMusicController : MonoBehaviour
 
     public void ToggleMute()
     {
-        // Toggle the background music
+        // Toggle background music
         isMuted = !isMuted;
         backgroundMusic.mute = isMuted;
 
-        // Update the mute/unmute button text
+        // Updatemute/unmute button text
         UpdateMuteButton();
     }
 
     private void UpdateMuteButton()
     {
-        // Update the mute/unmute button's text or appearance based on the mute state
+        // Update mute/unmute button's text based on the mute state
         if (muteButton != null)
         {
             Text buttonText = muteButton.GetComponentInChildren<Text>();

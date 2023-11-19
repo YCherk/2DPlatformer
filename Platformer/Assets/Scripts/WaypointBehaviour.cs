@@ -10,7 +10,7 @@ public class PlaformBehaviour : MonoBehaviour
 
 
 
-    // Update is called once per frame
+    
     private void Update()
     {
         if (Vector2.Distance(wp[CurrentWPIndex].transform.position, transform.position) < .1f)
@@ -21,6 +21,8 @@ public class PlaformBehaviour : MonoBehaviour
                 CurrentWPIndex = 0;
             }
         }
+
+
         transform.position = Vector2.MoveTowards(transform.position, wp[CurrentWPIndex].transform.position, Time.deltaTime * Speed);
     }
 }
