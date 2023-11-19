@@ -25,7 +25,7 @@ public class TextController : MonoBehaviour
 
             if (hintDisplayTimer >= hintDisplayTime)
             {
-                // Hide the hint text after the specified time
+                
                 hintText.gameObject.SetActive(false);
                 isDisplayingHint = false;
                 hintDisplayTimer = 0.0f;
