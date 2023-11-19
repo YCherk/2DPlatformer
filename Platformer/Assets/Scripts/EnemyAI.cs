@@ -16,7 +16,7 @@ public class EnemyAI : MonoBehaviour
     public Transform shootPoint;
     public float shootCooldown = 2f;
     private float lastShootTime;
-    private bool shouldShoot = false; // Add this flag
+    private bool shouldShoot = false; 
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -28,9 +28,9 @@ public class EnemyAI : MonoBehaviour
         initialPosition = transform.position;
         SetRandomTarget();
 
-        // Get the Animator component
+        
         animator = GetComponent<Animator>();
-        // Get the SpriteRenderer component
+        
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         lastShootTime = 0f;
@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
                 soundPlayed = true;
             }
 
-            // Shooting logic
+           
             if (shouldShoot && Time.time - lastShootTime >= shootCooldown)
             {
                 Shoot();
@@ -56,10 +56,10 @@ public class EnemyAI : MonoBehaviour
             Vector3 directionToPlayer = (player.position - transform.position).normalized;
             transform.Translate(directionToPlayer * followSpeed * Time.deltaTime);
 
-            // Set Animator parameter for running
+           
             animator.SetBool("IsRunning", true);
 
-            // Flip the sprite based on the direction of movement
+
             if (directionToPlayer.x < 0)
             {
                 spriteRenderer.flipX = false;
@@ -76,16 +76,15 @@ public class EnemyAI : MonoBehaviour
                 isFollowingPlayer = true;
                 shouldShoot = true; // Enable shooting when following
 
-                // Set Animator parameter for running
+               
                 animator.SetBool("IsRunning", true);
             }
             else
             {
-                // Stand still and do not move
-                // Set Animator parameter for running to false
+                
                 animator.SetBool("IsRunning", false);
 
-                // Flip the sprite based on the direction to the target position
+                
                 if (targetPosition.x < transform.position.x)
                 {
                     spriteRenderer.flipX = false;
@@ -105,15 +104,14 @@ public class EnemyAI : MonoBehaviour
 
     void Shoot()
     {
-        // Create a bullet instance at the shoot point's position
+       
         GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
 
-        // Calculate bullet's direction based on the enemy's orientation
+        
         Vector3 bulletDirection = spriteRenderer.flipX ? Vector3.right : Vector3.left;
 
-        // Set the bullet's speed and direction
         bullet.GetComponent<EnemyBullet>().SetDirection(bulletDirection);
 
-        // Set the bullet's damage, effects, etc. if necessary
+       
     }
 }

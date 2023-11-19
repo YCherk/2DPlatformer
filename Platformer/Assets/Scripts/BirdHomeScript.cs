@@ -24,7 +24,7 @@ public class BossBird : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Player found the bird, start following
+            
             isFollowing = true;
             displayText.text = "MASKMAN: 'BIRDY! IT'S YOU! FOLLOW ME!'";
             yield return new WaitForSeconds(3.0f);

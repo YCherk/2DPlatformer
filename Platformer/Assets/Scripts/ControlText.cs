@@ -13,7 +13,7 @@ public class ControlText : MonoBehaviour
 
     private void Start()
     {
-        // Hide the hint text initially
+        
         hintText.gameObject.SetActive(false);
     }
 
@@ -25,7 +25,7 @@ public class ControlText : MonoBehaviour
 
             if (hintDisplayTimer >= hintDisplayTime)
             {
-                // Hide the hint text after the specified time
+                
                 hintText.gameObject.SetActive(false);
                 isDisplayingHint = false;
                 hintDisplayTimer = 0.0f;
@@ -35,10 +35,10 @@ public class ControlText : MonoBehaviour
 
     public void ShowOrangeHint()
     {
-        // Set the hint text
+        
         hintText.text = "Virtual Guy: You lost Birdy again??? Get to the checkpoint to look for him in the next Pixel World. Dont forget to get him fruits. Good Luck!";
 
-        // Show the hint text
+        
         hintText.gameObject.SetActive(true);
 
         isDisplayingHint = true;
